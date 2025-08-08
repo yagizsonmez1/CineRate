@@ -26,4 +26,15 @@
     {% else %}
         <p>No reviews yet.</p>
     {% endif %}
+
+    {% if user.is_authenticated %}
+        <h3>{% if existing_review %}Edit Your Review{% else %}Leave a Review{% endif %}</h3>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Submit Review</button>
+        </form>
+    {% else %}
+        <p><a href="{% url 'movies:login' %}">Log in</a> to leave a review.</p>
+    {% endif %}
 {% endblock %}
