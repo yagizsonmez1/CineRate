@@ -1,10 +1,11 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
-from .models import Movie, Review
+from .models import Favorite, Movie, Review
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from .forms import ReviewForm
 from django.http import HttpResponseForbidden
+from django.http import JsonResponse
 
 def register(request):
     return HttpResponse("Register page coming soon.") # Just to avoid the breakdown of the site
@@ -42,13 +43,17 @@ def movie_detail(request, movie_id):
     if request.user.is_authenticated:
         form = ReviewForm(instance=existing_review)
     else:
-        None 
-        
+        None
+    is_favorite = False
+    if request.user.is_authenticated:
+        is_favorite = movie.favorite_set.filter(user=request.user).exists()
+         
     return render(request, 'movies/movie_detail.html', {
         'movie': movie,
         'reviews': reviews,
         'form': form,
         'existing_review': existing_review,
+        'is_favorite': is_favorite,
     })
 
 @login_required
@@ -63,6 +68,23 @@ def delete_review(request, movie_id):
 
 @login_required
 def profile(request, user_id):
-    return render(request, 'movies/profile.html', {'user_id':user_id})
+    if request.user.id != user_id:
+        return HttpResponseForbidden("This isn't your profile.")
+    favorites = Favorite.objects.filter(user=request.user).select_related('movie')
 
+    return render(request, 'movies/profile.html', {
+        'user_id': user_id,
+        'favorites': favorites,
+    })
 
+@login_required
+def toggle_favorite(request, movie_id):
+    movie = movie = get_object_or_404(Movie, pk=movie_id)
+    favorite = Favorite.objects.filter(user=request.user, movie=movie).first()
+
+    if favorite:
+        favorite.delete()
+    else:
+        Favorite.objects.create(user=request.user, movie=movie)
+
+    return redirect('movies:movie_detail', movie_id=movie.id)
