@@ -1,0 +1,29 @@
+{% extends 'movies/base.html' %}
+
+{% block title_block %}{{ movie.title }}{% endblock %}
+
+{% block body_block %}
+    <h1>{{ movie.title }}</h1>
+    <p><strong>Genre:</strong> {{ movie.genre }}</p>
+    <p><strong>Release Date:</strong> {{ movie.release_date }}</p>
+    <p>{{ movie.description }}</p>
+
+    {% if movie.poster %}
+        <img src="{{ movie.poster.url }}" alt="{{ movie.title }} poster" width="200">
+    {% endif %}
+
+    <h2>Community Reviews</h2>
+    {% if reviews %}
+        <ul>
+            {% for review in reviews %}
+                <li>
+                    <strong>{{ review.user.username }}</strong> rated it {{ review.rating }}/5<br>
+                    {{ review.text }}<br>
+                    <small>{{ review.created_at }}</small>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No reviews yet.</p>
+    {% endif %}
+{% endblock %}

@@ -120,9 +120,9 @@ USE_TZ = True
 STATIC_URL = "static/"
 MEDIA_URL = '/media/'
 
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',
-]
+#STATICFILES_DIRS = [
+    #BASE_DIR / 'static', COMMENTING THIS FOR NOW, might remove the comment if we create a global static file.
+#]
 
 MEDIA_ROOT = BASE_DIR / 'media'
 
