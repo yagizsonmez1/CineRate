@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>CineRate - {% block title_block %}Movie Reviews{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'movies/css/styles.css' %}">
+</head>
+<body>
+
+    <!-- Main Content -->
+    <div>
+        {% block body_block %}
+        {% endblock %}
+    </div>
+
+    <!-- Sidebar -->
+    <div>
+        {% block sidebar_block %}
+        <!-- Optional: category list or user info -->
+        {% endblock %}
+    </div>
+
+    <hr>
+
+    <!-- Navigation -->
+    <div>
+        <ul>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'movies:profile' user.id %}">My Profile</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            {% else %}
+                <li><a href="{% url 'movies:register' %}">Sign Up</a>
+                <li><a href="{% url 'movies:login' %}">Login</a></li>
+            {% endif %}
+            <li><a href="{% url 'movies:home' %}">Home</a></li>
+        </ul>
+    </div>
+
+    <script src="{% static 'movies/js/scripts.js' %}"></script>
+</body>
+</html>
