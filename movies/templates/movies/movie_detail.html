@@ -28,13 +28,21 @@
     {% endif %}
 
     {% if user.is_authenticated %}
-        <h3>{% if existing_review %}Edit Your Review{% else %}Leave a Review{% endif %}</h3>
-        <form method="post">
+        {% if existing_review %}
+            <h3>Edit Your Review</h3>
+        {% else %}
+            <h3>Leave a Review</h3>
+        {% endif %}
+        <form method="post" action="{% url 'movies:movie_detail' movie.id %}" style="margin-top:10px;">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Submit Review</button>
+            <button type="submit">{% if existing_review %}Update{% else %}Submit{% endif %}</button>
         </form>
-    {% else %}
-        <p><a href="{% url 'movies:login' %}">Log in</a> to leave a review.</p>
+        {% if existing_review %}
+            <form method="post" action="{% url 'movies:delete_review' movie.id %}" style="margin-top:10px;">
+                {% csrf_token %}
+                <button type="submit">Delete My Review</button>
+            </form>
+        {% endif %}
     {% endif %}
 {% endblock %}

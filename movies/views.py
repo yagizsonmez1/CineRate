@@ -4,6 +4,7 @@ from .models import Movie, Review
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from .forms import ReviewForm
+from django.http import HttpResponseForbidden
 
 def register(request):
     return HttpResponse("Register page coming soon.") # Just to avoid the breakdown of the site
@@ -49,6 +50,16 @@ def movie_detail(request, movie_id):
         'form': form,
         'existing_review': existing_review,
     })
+
+@login_required
+def delete_review(request, movie_id):
+    movie = get_object_or_404(Movie, pk=movie_id)
+    review = get_object_or_404(Review, movie=movie, user=request.user)
+
+    if request.method == 'POST':
+        review.delete()
+        return redirect('movies:movie.detail', movie_id=movie.id)
+    return HttpResponseForbidden("You can't do that.")
 
 @login_required
 def profile(request, user_id):
