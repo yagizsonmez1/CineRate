@@ -31,6 +31,7 @@
             {% else %}
                 <li><a href="{% url 'movies:register' %}">Sign Up</a>
                 <li><a href="{% url 'movies:login' %}">Login</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
             {% endif %}
             <li><a href="{% url 'movies:home' %}">Home</a></li>
             <li><a href="{% url 'movies:movie_list' %}">All Movies</a></li>

@@ -12,6 +12,9 @@
                         <strong>{{ movie.title }}</strong> 
                     </a>
                     ({{ movie.genre }}) - {{ movie.release_date }}
+                    {% if movie.poster %}
+                    <br><img src="{{ movie.poster.url }}" alt="{{ movie.title }} poster" width="120">
+                    {% endif %}
                 </li>
             {% endfor %}
         </ul>

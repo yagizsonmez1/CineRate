@@ -5,7 +5,7 @@ class Movie(models.Model): #I created it since I am working on the html template
     title = models.CharField(max_length=128)
     genre = models.CharField(max_length=128)
     description = models.TextField()
-    poster = models.ImageField(upload_to='posters/')
+    poster = models.ImageField(upload_to='posters/', blank=True, null=True)
     release_date = models.DateField()
  
     def __str__(self):
