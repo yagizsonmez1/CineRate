@@ -1,20 +1,52 @@
 {% extends 'movies/base.html' %}
 
-{% block title_block %}My Profile{% endblock %}
+{% block title_block %}{{ user_profile.username }}'s Profile{% endblock %}
 
 {% block body_block %}
-    <h1>Your Favorite Movies</h1>
+    <h1>{{ user_profile.username }}'s Profile</h1>
+    <p>Joined on: {{ user_profile.date_joined|date:"F j, Y" }}</p>
+
+    <h2>Favorite Movies</h2>
     {% if favorites %}
-        <ul>
+        <div style="display: flex; flex-wrap: wrap; gap: 20px;">
             {% for fav in favorites %}
-                <li>
+                <div>
                     <a href="{% url 'movies:movie_detail' fav.movie.id %}">
-                        {{ fav.movie.title }}
+                        {% if fav.movie.poster %}
+                            <img src="{{ fav.movie.poster.url }}" alt="{{ fav.movie.title }} poster" width="120">
+                        {% else %}
+                            <div style="width:120px; height:180px; background:#ccc; display:flex; align-items:center; justify-content:center;">
+                                No Image
+                            </div>
+                        {% endif %}
                     </a>
+                    <p>{{ fav.movie.title }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No favorites yet.</p>
+    {% endif %}
+
+    <h2>My Reviews</h2>
+    {% if reviews %}
+        <ul>
+            {% for review in reviews %}
+                <li>
+                    <strong>{{ review.movie.title }}</strong> - Rated {{ review.rating }}/5<br>
+                    {{ review.text }}<br>
+                    <small>{{ review.created_at }}</small><br>
+                    {% if user == user_profile %}
+                        <a href="{% url 'movies:movie_detail' review.movie.id %}">Edit</a> |
+                        <form method="post" action="{% url 'movies:delete_review' review.movie.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit">Delete</button>
+                        </form>
+                    {% endif %}
                 </li>
             {% endfor %}
         </ul>
     {% else %}
-        <p>You haven't favorited any movies yet.</p>
+        <p>No reviews yet.</p>
     {% endif %}
 {% endblock %}

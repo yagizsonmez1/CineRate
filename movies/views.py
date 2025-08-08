@@ -6,6 +6,7 @@ from django.shortcuts import redirect
 from .forms import ReviewForm
 from django.http import HttpResponseForbidden
 from django.http import JsonResponse
+from django.contrib.auth.models import User
 
 def register(request):
     return HttpResponse("Register page coming soon.") # Just to avoid the breakdown of the site
@@ -68,15 +69,17 @@ def delete_review(request, movie_id):
 
 @login_required
 def profile(request, user_id):
-    if request.user.id != user_id:
-        return HttpResponseForbidden("This isn't your profile.")
-    favorites = Favorite.objects.filter(user=request.user).select_related('movie')
+    user_profile = get_object_or_404(User, pk=user_id)
+    favorites = Favorite.objects.filter(user=user_profile).select_related('movie')
+    reviews = Review.objects.filter(user=user_profile).select_related('movie')
 
-    return render(request, 'movies/profile.html', {
-        'user_id': user_id,
-        'favorites': favorites,
-    })
-
+    context = {
+        'user_profile' : user_profile,
+        'favorites' : favorites,
+        "reviews" : reviews,
+    }
+    return render(request, "movies/profile.html", context
+                  )
 @login_required
 def toggle_favorite(request, movie_id):
     movie = movie = get_object_or_404(Movie, pk=movie_id)
@@ -84,7 +87,11 @@ def toggle_favorite(request, movie_id):
 
     if favorite:
         favorite.delete()
+        is_favorite = False
     else:
         Favorite.objects.create(user=request.user, movie=movie)
+        is_favorite = True
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return JsonResponse({'is_favorite' : is_favorite })
 
     return redirect('movies:movie_detail', movie_id=movie.id)
