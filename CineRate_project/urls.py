@@ -23,6 +23,7 @@ from django.conf import settings
 urlpatterns = [
     path("admin/", admin.site.urls),
     path('', include('movies.urls')),
+    path('accounts/', include('accounts.urls')),  
     path('logout/', auth_views.LogoutView.as_view(next_page='movies:home'), name='logout'),
 ]
 
