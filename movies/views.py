@@ -7,6 +7,8 @@ from .forms import ReviewForm
 from django.http import HttpResponseForbidden
 from django.http import JsonResponse
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator # This handles splitting  the movie list into pages
+from django.db.models import Q # lets us filter
 
 def register(request):
     return HttpResponse("Register page coming soon.") # Just to avoid the breakdown of the site
@@ -95,3 +97,22 @@ def toggle_favorite(request, movie_id):
         return JsonResponse({'is_favorite' : is_favorite })
 
     return redirect('movies:movie_detail', movie_id=movie.id)
+
+def movie_list(request):
+    query = request.GET.get('q', '')
+    movies = Movie.objects.all()
+
+    if query:
+        movies = movies.filter(
+            Q(title_icontatins = query) |
+            Q(genre__icontains = query)
+        )
+    
+    paginator = Paginator(movies, 6) # 6 movies per page is enough I think
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, 'movies/movie_list.html', {
+        'page_obj': page_obj,
+        'query': query
+    })
