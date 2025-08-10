@@ -17,7 +17,7 @@
                 {% if movie.poster %}
                     <img src="{{ movie.poster.url }}" alt="{{ movie.title }}" width="150">
                 {% else %}
-                    <div style="width:150px; height:220px; background:#ccc; display:flex; align-items:center; justify-content:center;">
+                    <div style="width:150px; height:220px; background: lightgray; display:flex; align-items:center; justify-content:center;">
                         No Image
                     </div>
                 {% endif %}
@@ -26,6 +26,19 @@
         </div>
     {% empty %}
         <p>No movies found.</p>
+    {% endfor %}
+</div>
+
+<div class="movie-grid"></div>
+    {% for movie in page_obj %}
+    <div class="movie-card">
+        {% if movie.poster %}
+            <img src="{{ movie.poster.url }}" alt="{{ movie.title }}">
+        {% endif %}
+        <h3>{{ movie.title }}</h3>
+        <p>{{ movie.genre }}</p>
+        <a href="{% url 'movies:movie_detail' movie.id %}" class="btn btn-success">View Details</a>
+    </div>
     {% endfor %}
 </div>
 

@@ -22,6 +22,7 @@
         <p><strong>Genre:</strong> {{ movie.genre }}</p>
         <p><strong>Release Date:</strong> {{ movie.release_date }}</p>
         <p>{{ movie.description }}</p>
+        <a href="{% url 'movies:movie_list' %}" class="btn">Back to Movies</a>
 
         <!-- Favorites Button -->
         {% if user.is_authenticated %}
@@ -50,7 +51,7 @@
                 <strong>{{ review.user.username }}</strong>  
                 <span>
                     {% for i in "12345" %}
-                        {% if forloop.counter <= review.rating %}
+                        {% if forloop.counter = review.rating %}
                             ★
                         {% else %}
                             ☆
