@@ -104,8 +104,9 @@ def movie_list(request):
 
     if query:
         movies = movies.filter(
-            Q(title_icontatins = query) |
-            Q(genre__icontains = query)
+            Q(title__icontains=query) |
+            Q(genre__icontains=query)|
+            Q(description__icontains=query)
         )
     
     paginator = Paginator(movies, 6) # 6 movies per page is enough I think
