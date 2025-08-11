@@ -14,7 +14,7 @@ class SignUpForm(forms.ModelForm):
     def clean_password1(self):
         password1 = self.cleaned_data.get("password1")
         if password1:
-            validate_password(password1)  # ✅ uses settings.py validators
+            validate_password(password1)  
         return password1
 
     def clean_password2(self):

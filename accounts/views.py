@@ -8,7 +8,7 @@ def signup_view(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)  # auto login
+            login(request, user) 
             return redirect('profile')
     else:
         form = SignUpForm()
@@ -18,5 +18,5 @@ def signup_view(request):
 def profile_view(request):
     return render(request, 'accounts/profile.html', {
         "profile_user": request.user,
-        "favorites": []  # placeholder
+        "favorites": []  
     })

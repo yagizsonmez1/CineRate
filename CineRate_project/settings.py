@@ -9,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # --- Core ---
 SECRET_KEY = "django-insecure-%7sk9-1zzk6ukpg_xi0ihwrc#7pm=u)f^lmp%st&p5n&jzvl$r"
 DEBUG = True
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]  # dev-friendly
+ALLOWED_HOSTS = ["localhost", "127.0.0.1"] 
 
 # --- Apps ---
 INSTALLED_APPS = [
@@ -40,7 +40,7 @@ ROOT_URLCONF = "CineRate_project.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "templates"],  # we'll put registration/ here
+        "DIRS": [BASE_DIR / "templates"],  
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -71,9 +71,8 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
-# --- I18N / TZ ---
 LANGUAGE_CODE = "en-us"
-TIME_ZONE = "Europe/London"  # matches your env
+TIME_ZONE = "Europe/London"  
 USE_I18N = True
 USE_TZ = True
 
@@ -81,13 +80,11 @@ USE_TZ = True
 STATIC_URL = "static/"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
-# If you add a global /static folder later, uncomment:
-# STATICFILES_DIRS = [BASE_DIR / "static"]
+
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # --- Auth redirects ---
-# We'll create URL names 'login' and 'profile' shortly.
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "profile"
 LOGOUT_REDIRECT_URL = "login"
