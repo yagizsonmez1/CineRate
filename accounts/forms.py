@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
+from django.contrib.auth.password_validation import validate_password
 
 class SignUpForm(forms.ModelForm):
     password1 = forms.CharField(label="Password", widget=forms.PasswordInput)
@@ -9,6 +10,12 @@ class SignUpForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ["username", "email"]
+
+    def clean_password1(self):
+        password1 = self.cleaned_data.get("password1")
+        if password1:
+            validate_password(password1)  # ✅ uses settings.py validators
+        return password1
 
     def clean_password2(self):
         p1 = self.cleaned_data.get("password1")

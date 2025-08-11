@@ -1,7 +1,26 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Welcome, {{ user.username }}</h2>
-<p>Your email: {{ user.email }}</p>
-<a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+<div class="container mt-4" style="max-width: 600px;">
+    <h2 class="mb-3">Welcome, {{ user.username }}</h2>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+
+    <hr>
+
+    {% if favorites %}
+        <h4>Your Favorite Movies</h4>
+        <ul class="list-group mb-3">
+            {% for movie in favorites %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ movie.title }}
+                    <a href="{% url 'remove_favorite' movie.id %}" class="btn btn-sm btn-outline-danger">Remove</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="text-muted">You haven’t added any favorites yet.</p>
+    {% endif %}
+
+    <a href="{% url 'logout' %}" class="btn btn-danger w-100">Logout</a>
+</div>
 {% endblock %}

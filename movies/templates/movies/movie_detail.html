@@ -26,7 +26,7 @@
 
         <!-- Favorites Button -->
         {% if user.is_authenticated %}
-            <form method="post" action="{% url 'movies:toggle_favorite' movie.id %}" style="margin-top:15px;">
+            <form method="post" action="{% url 'movies:toggle_favorite' movie.id %}?next={% url 'movies:movie_detail' movie.id %}" style="margin-top:15px;">
                 {% csrf_token %}
                 <button type="submit" style="padding:8px 15px;">
                     {% if is_favorite %}
@@ -51,7 +51,7 @@
                 <strong>{{ review.user.username }}</strong>  
                 <span>
                     {% for i in "12345" %}
-                        {% if forloop.counter = review.rating %}
+                        {% if forloop.counter <= review.rating %}
                             ★
                         {% else %}
                             ☆
