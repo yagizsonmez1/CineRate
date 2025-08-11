@@ -8,8 +8,8 @@ def signup_view(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user) 
-            return redirect('profile')
+            login(request, user)
+            return redirect('movies:home')
     else:
         form = SignUpForm()
     return render(request, 'accounts/signup.html', {'form': form})
@@ -18,5 +18,5 @@ def signup_view(request):
 def profile_view(request):
     return render(request, 'accounts/profile.html', {
         "profile_user": request.user,
-        "favorites": []  
+        "favorites": []
     })
