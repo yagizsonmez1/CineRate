@@ -6,6 +6,11 @@
     <link rel="stylesheet" href="{% static 'movies/css/style.css' %}">
 </head>
 <body>
+    <!-- Logo -->
+    <header class="site-header">
+        <h1 class="site-title">CineRate</h1>
+        <img class="site-logo" src="{% static 'movies/images/logo.png' %}" alt="CineRate Logo">
+    </header>    
 
     <!-- Main Content -->
     <div>
@@ -16,11 +21,8 @@
     <!-- Sidebar -->
     <div>
         {% block sidebar_block %}
-        <!-- Optional?: category list or user info -->
         {% endblock %}
     </div>
-
-    <hr>
 
     <!-- Navigation -->
     <nav class="navbar">

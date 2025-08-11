@@ -3,6 +3,7 @@ body {
     margin: 0;
     padding: 0;
     background-color:lightslategray;
+    padding-bottom: 60px;
 }
 
 h1 {
@@ -47,6 +48,11 @@ div {
 .navbar {
     background-color: black ;
     padding: 10px 0;
+    position:fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
 }
 
 .navbar ul {
@@ -142,4 +148,26 @@ select {
     margin: 6px;
     border: 1px solid lightgray;
     border-radius: 4px;
+}
+
+.top-header {
+    position: relative;
+    background-color: black;
+    padding: 10px 20px;
+    height: 60px;
+}
+
+.site-title {
+    color: lightseagreen;
+    margin: 0;
+    line-height: 40px;
+}
+
+.site-logo {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    height: 40px;
+    width: auto;
+    object-fit: contain;
 }
