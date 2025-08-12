@@ -192,3 +192,26 @@ select {
     background-color: var(--cinerate_black4);
     border-color: none;
 }
+
+.review-card {
+    border: 1px solid lightgray;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background-color: white;
+}
+
+.review-card strong,
+.review-card small {
+    color: white;
+}
+
+.review-text {
+    color: white;
+    margin: 8px 0;
+}
+
+.review-card span {
+    color: gold;
+    font-size: 1.2em;
+}

@@ -47,22 +47,23 @@
 {% if reviews %}
     <div style="margin-top: 10px;">
         {% for review in reviews %}
-            <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px; border-radius:5px;">
-                <strong>{{ review.user.username }}</strong>  
-                <span>
-                    {% for i in "12345" %}
-                        {% if forloop.counter <= review.rating %}
-                            ★
-                        {% else %}
-                            ☆
-                        {% endif %}
-                    {% endfor %}
-                </span>
-                <br>
-                {{ review.text }}
-                <br>
-                <small>{{ review.created_at }}</small>
-            </div>
+        <div class="review-card" style="border:1px solid lightgray; padding:10px; margin-bottom:10px; border-radius:5px;">
+            <strong>{{ review.user.username }}</strong>
+            <span>
+                {% for i in "12345" %}
+                    {% if forloop.counter <= review.rating %}
+                        ★
+                    {% else %}
+                        ☆
+                    {% endif %}
+                {% endfor %}
+            </span>
+            <br>
+            <p class="review-text">{{ review.text }}</p>
+            <br>
+            <small>{{ review.created_at }}</small>
+        </div>
+        
         {% endfor %}
     </div>
 {% else %}
