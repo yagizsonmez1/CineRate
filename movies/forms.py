@@ -6,8 +6,8 @@ class ReviewForm(forms.ModelForm):
         model = Review
         fields = ['rating', 'text']
         widgets = {
-            'rating': forms.NumberInput(attrs={'min': 1, 'max': 5}),
-            'text': forms.Textarea(attrs={'rows': 4}),
+            'rating': forms.NumberInput(attrs={'class':'search-box','min': 1, 'max': 5}),
+            'text': forms.Textarea(attrs={'class':'search-box','rows': 4,'placeholder': 'Write your review here...'}),
         }
         labels = {
             'rating': 'Rating (1-5)',

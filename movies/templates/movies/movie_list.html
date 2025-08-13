@@ -5,8 +5,8 @@
 {% block body_block %}
 <h1>All Movies</h1>
 
-<form method="get" action="{% url 'movies:movie_list' %}">
-    <input type="text" name="q" class="search-box" placeholder="Search Movies..." value="{{ query }}">
+<form method="get" action="{% url 'movies:movie_list' %}" class="movie-list-page">
+    <input type="text" name="q" class="search-box movie-list-page" placeholder="Search Movies..." value="{{ query }}">
     <button class="btn" type="submit"><h4>Search</h4></button>
 </form>
 
@@ -51,7 +51,7 @@
         <a href="?q={{ query }}&page={{ page_obj.previous_page_number }}">Previous</a>
     {% endif %}
 
-    <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+    <h4>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</h4>
 
     {% if page_obj.has_next %}
         <a href="?q={{ query }}&page={{ page_obj.next_page_number }}">Next</a>

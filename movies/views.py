@@ -24,7 +24,6 @@ def movie_list(request):
             Q(description__icontains=query)
         )
 
-    movies = Movie.objects.all().order_by('id')
     paginator = Paginator(movies, 6)  # show 6 movies per page
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)

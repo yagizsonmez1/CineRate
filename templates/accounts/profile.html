@@ -18,12 +18,12 @@
             <img class="fav-poster" src="{{ movie.poster.url }}" alt="{{ movie.title }}">
           {% endif %}
           
-          <div class="fav-title">{{ movie.title }}</div>
+          <h4>{{ movie.title }}</h4>
 
           <form method="post" action="{% url 'movies:toggle_favorite' movie.id %}">
             {% csrf_token %}
             <input type="hidden" name="next" value="{% url 'profile' %}">
-            <button type="submit" class="btn btn-sm btn-outline-danger">Remove</button>
+            <button type="submit" class="btn remove">Remove</button>
           </form>
         </div>
       {% endfor %}
@@ -36,14 +36,22 @@
   <div class="profile-reviews">
     {% if user_reviews %}
       <ul class="list-group mb-3">
-        {% for r in user_reviews %}
-          <li class="list-group-item review-card">
-            <div class="d-flex justify-content-between">
-              <strong>{{ r.movie.title }}</strong>
-              <span>{{ r.rating }}/5</span>
+        {% for review in user_reviews %}
+          <li class="list-group-item">
+            <div class="review-card">
+                <img src="{{ review.movie.poster.url }}" alt="{{ review.movie.title }}">
+                <div class="d-flex justify-content-between">
+                  <strong>{{ review.movie.title }}</strong>
+                  <span>
+                      {% for i in "12345" %}
+                          {% if forloop.counter <= review.rating %}⭐{% else %}☆{% endif %}
+                      {% endfor %}
+                  </span>
+                  <br>
+                    {{ review.text }}
+                  <br>
+                  <small>{{ review.created_at }}</small>
             </div>
-            <div>{{ r.text }}</div>
-            <small class="text-muted">{{ r.created_at }}</small>
           </li>
         {% endfor %}
       </ul>

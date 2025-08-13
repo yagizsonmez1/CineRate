@@ -38,10 +38,16 @@
         <ul>
             {% for review in profile_user.review_set.all %}
                 <li>
-                    <strong>{{ review.movie.title }}</strong> - Rated {{ review.rating }}/5<br>
-                    {{ review.text }}<br>
-                    <small>{{ review.created_at }}</small><br>
-                    <a href="{% url 'movies:movie_detail' review.movie.id %}">Edit</a>
+                    <strong>{{ review.movie.title }}</strong>
+                    <span>
+                        {% for i in "12345" %}
+                            {% if forloop.counter <= review.rating %}⭐{% else %}☆{% endif %}
+                        {% endfor %}
+                    </span>
+                    <br>
+                    {{ review.text }}
+                    <br>
+                    <small>{{ review.created_at }}</small>
                 </li>
             {% endfor %}
         </ul>

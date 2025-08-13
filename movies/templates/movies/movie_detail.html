@@ -19,8 +19,8 @@
     <!-- Movie Info -->
     <div style="flex: 1;">
         <h1>{{ movie.title }}</h1>
-        <p><strong>Genre:</strong> {{ movie.genre }}</p>
-        <p><strong>Release Date:</strong> {{ movie.release_date }}</p>
+        <p class="highlight"><strong>Genre:</strong> {{ movie.genre }}</p>
+        <p class="highlight"><strong>Release Date:</strong> {{ movie.release_date }}</p>
         <p>{{ movie.description }}</p>
         <a href="{% url 'movies:movie_list' %}" class="btn">Back to Movies</a>
 
@@ -28,7 +28,7 @@
         {% if user.is_authenticated %}
             <form method="post" action="{% url 'movies:toggle_favorite' movie.id %}?next={% url 'movies:movie_detail' movie.id %}" style="margin-top:15px;">
                 {% csrf_token %}
-                <button type="submit" style="padding:8px 15px;">
+                <button type="submit" class="btn" style="padding:8px 15px;">
                     {% if is_favorite %}
                         Remove from Favorites
                     {% else %}
@@ -47,11 +47,11 @@
 {% if reviews %}
     <div class="reviews" style="margin-top: 10px;">
         {% for review in reviews %}
-            <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px; border-radius:5px;">
+            <div style="border:1px solid #473335; padding:10px; margin-bottom:10px; border-radius:5px;">
                 <strong>{{ review.user.username }}</strong>
                 <span>
                     {% for i in "12345" %}
-                        {% if forloop.counter <= review.rating %}★{% else %}☆{% endif %}
+                        {% if forloop.counter <= review.rating %}⭐{% else %}☆{% endif %}
                     {% endfor %}
                 </span>
                 <br>
@@ -74,7 +74,7 @@
     <form method="post" action="{% url 'movies:movie_detail' movie.id %}">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">
+        <button class="btn" type="submit">
             {% if existing_review %}Update{% else %}Submit{% endif %}
         </button>
     </form>
@@ -82,7 +82,7 @@
     {% if existing_review %}
         <form method="post" action="{% url 'movies:delete_review' movie.id %}" style="margin-top:10px;">
             {% csrf_token %}
-            <button type="submit">Delete My Review</button>
+            <button class="btn remove" type="submit">Delete My Review</button>
         </form>
     {% endif %}
 {% endif %}
