@@ -45,17 +45,13 @@
 <!-- Reviews Section -->
 <h2>Community Reviews</h2>
 {% if reviews %}
-    <div style="margin-top: 10px;">
+    <div class="reviews" style="margin-top: 10px;">
         {% for review in reviews %}
             <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px; border-radius:5px;">
-                <strong>{{ review.user.username }}</strong>  
+                <strong>{{ review.user.username }}</strong>
                 <span>
                     {% for i in "12345" %}
-                        {% if forloop.counter <= review.rating %}
-                            ★
-                        {% else %}
-                            ☆
-                        {% endif %}
+                        {% if forloop.counter <= review.rating %}★{% else %}☆{% endif %}
                     {% endfor %}
                 </span>
                 <br>
@@ -68,6 +64,7 @@
 {% else %}
     <p>No reviews yet.</p>
 {% endif %}
+
 
 <!-- Review Form -->
 {% if user.is_authenticated %}

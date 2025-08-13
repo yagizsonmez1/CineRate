@@ -1,29 +1,60 @@
 {% extends "movies/base.html" %}
 
 {% block body_block %}
-<div class="container mt-4" style="max-width: 600px;">
-    <h2 class="mb-3">Welcome, {{ user.username }}</h2>
-    <p><strong>Email:</strong> {{ user.email }}</p>
+<div class="container mt-4" style="max-width: 900px; margin: 0 auto;">
 
-    <hr>
+  <h2 class="mb-3 text-center">Welcome, {{ request.user.username }}</h2>
+  <p class="text-center"><strong>Email:</strong> {{ request.user.email|default:"—" }}</p>
+  <p class="text-center"><strong>Joined on:</strong> {{ request.user.date_joined|date:"M j, Y" }}</p>
 
-    {% if favorites %}
-        <h4>Your Favorite Movies</h4>
-        <ul class="list-group mb-3">
-            {% for movie in favorites %}
-                <li class="list-group-item d-flex justify-content-between align-items-center">
-                    {{ movie.title }}
-                    <a href="{% url 'remove_favorite' movie.id %}" class="btn btn-sm btn-outline-danger">Remove</a>
-                </li>
-            {% endfor %}
-        </ul>
+  <hr>
+
+  <h4>Favorite Movies</h4>
+  {% if favorites %}
+    <div class="favorite-grid">
+      {% for movie in favorites %}
+        <div class="fav-item">
+          {% if movie.poster %}
+            <img class="fav-poster" src="{{ movie.poster.url }}" alt="{{ movie.title }}">
+          {% endif %}
+          
+          <div class="fav-title">{{ movie.title }}</div>
+
+          <form method="post" action="{% url 'movies:toggle_favorite' movie.id %}">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{% url 'profile' %}">
+            <button type="submit" class="btn btn-sm btn-outline-danger">Remove</button>
+          </form>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="text-muted">No favorites yet.</p>
+  {% endif %}
+
+  <h4 class="mt-4">My Reviews</h4>
+  <div class="profile-reviews">
+    {% if user_reviews %}
+      <ul class="list-group mb-3">
+        {% for r in user_reviews %}
+          <li class="list-group-item review-card">
+            <div class="d-flex justify-content-between">
+              <strong>{{ r.movie.title }}</strong>
+              <span>{{ r.rating }}/5</span>
+            </div>
+            <div>{{ r.text }}</div>
+            <small class="text-muted">{{ r.created_at }}</small>
+          </li>
+        {% endfor %}
+      </ul>
     {% else %}
-        <p class="text-muted">You haven’t added any favorites yet.</p>
+      <p class="text-muted">No reviews yet.</p>
     {% endif %}
+  </div>
 
-    <form method="post" action="{% url 'logout' %}" class="mt-3">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-danger w-100">Logout</button>
-    </form>
+  <form method="post" action="{% url 'logout' %}" class="mt-3">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger w-100">Logout</button>
+  </form>
 </div>
 {% endblock %}
