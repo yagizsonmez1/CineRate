@@ -13,18 +13,21 @@ def home(request):
     return render(request, "movies/home.html")
 
 
+
 def movie_list(request):
     query = request.GET.get('q', '')
-    movies = Movie.objects.all()
+    qs = Movie.objects.all()
 
     if query:
-        movies = movies.filter(
+        qs = qs.filter(
             Q(title__icontains=query) |
             Q(genre__icontains=query) |
             Q(description__icontains=query)
         )
+    qs = qs.order_by('title', 'pk')   
 
-    paginator = Paginator(movies, 6)  # show 6 movies per page
+
+    paginator = Paginator(qs, 6)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
